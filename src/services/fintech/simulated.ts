@@ -37,13 +37,11 @@ export class SimulatedFintechProvider implements FintechProvider {
         orderBy: { timestamp: "desc" },
       });
 
-      const fromRate = fromRateRow?.rateUsd.toNumber();
-      const toRate = toRateRow?.rateUsd.toNumber();
+      const fromRate = fromRateRow?.rateUsd != null ? Number(fromRateRow.rateUsd.toString()) : undefined;
+      const toRate = toRateRow?.rateUsd != null ? Number(toRateRow.rateUsd.toString()) : undefined;
 
       if (!fromRate || !toRate) {
-        throw new Error(
-          `Missing rates for conversion: ${fromCurrency} or ${toCurrency}`,
-        );
+        throw new Error(`Missing rates for conversion: ${fromCurrency} or ${toCurrency}`);
       }
 
       // amount * (USD/from) / (USD/to) = amount * (to/from)
